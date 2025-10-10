@@ -1,0 +1,9 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "dockerfile":   {
+    "managerFilePatterns": [
+      "/components/(^|/|\\.)([Dd]ocker|[Cc]ontainer)file$/",
+      "/components/(^|/)([Dd]ocker|[Cc]ontainer)file[^/]*$/"
+    ]
+  }
+}
