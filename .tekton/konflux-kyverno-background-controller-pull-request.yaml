@@ -32,6 +32,13 @@ spec:
     value: /components/background-controller/Dockerfile
   - name: path-context
     value: kyverno
+  taskRunSpecs:
+    - pipelineTaskName: build-container
+      stepSpecs:
+        - name: build
+          computeResources:
+            requests:
+              ephemeral-storage: 2Gi
   pipelineSpec:
     description: |
       This pipeline is ideal for building container images from a Containerfile while maintaining trust after pipeline customization.
