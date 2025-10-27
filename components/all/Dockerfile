@@ -14,11 +14,14 @@ WORKDIR /konflux-kyverno/kyverno
 RUN go mod download
 
 # Build
-RUN make build-$TARGETCOMPONENT
+RUN make build-${TARGETCOMPONENT}
+RUN echo "/${TARGETCOMPONENT}" > /konflux-kyverno/entrypoint.sh
 
 FROM registry.access.redhat.com/ubi9/ubi-micro@sha256:f45ee3d1f8ea8cd490298769daac2ac61da902e83715186145ac2e65322ddfc8
+ARG TARGETCOMPONENT
 WORKDIR /
-COPY --from=builder /konflux-kyverno/kyverno/cmd/$TARGETCOMPONENT .
+COPY --from=builder /konflux-kyverno/kyverno/cmd/${TARGETCOMPONENT} .
+COPY --from=builder --chmod=0755 /konflux-kyverno/entrypoint.sh /entrypoint.sh
 USER 65532:65532
 
-ENTRYPOINT ["/$TARGETCOMPONENT"]
+ENTRYPOINT ["sh", "-c", "./entrypoint.sh"]
