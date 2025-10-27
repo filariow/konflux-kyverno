@@ -3,10 +3,10 @@ name: Publish Tag
 on:
   push:
     branches:
-    - release-*
+    - release-*.*
 
 jobs:
-  tag_release:
+  release:
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -19,7 +19,7 @@ jobs:
       with:
         fetch-depth: '0'
     
-    - name: tag-current-commit
+    - name: release-and-tag
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         BRANCH: ${{ github.ref_name }}
