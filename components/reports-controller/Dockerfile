@@ -3,12 +3,13 @@ FROM registry.access.redhat.com/ubi9/go-toolset@sha256:7b1828de52c3bac600a71b819
 ARG TARGETOS
 ARG TARGETARCH
 
-WORKDIR /kyverno
+WORKDIR /konflux-kyverno/
 
 # Copy the Go Modules manifests
-COPY --chown=1001:0 kyverno .
+COPY --chown=1001:0 kyverno kyverno
 # cache deps before building and copying source so that we don't need to re-download as much
 # and so that source changes don't invalidate our downloaded layer
+WORKDIR /konflux-kyverno/kyverno
 RUN go mod download
 
 # Build
@@ -16,7 +17,7 @@ RUN make build-reports-controller
 
 FROM registry.access.redhat.com/ubi9/ubi-micro@sha256:f45ee3d1f8ea8cd490298769daac2ac61da902e83715186145ac2e65322ddfc8
 WORKDIR /
-COPY --from=builder /kyverno/cmd/reports-controller .
+COPY --from=builder /konflux-kyverno/kyverno/cmd/reports-controller .
 USER 65532:65532
 
 ENTRYPOINT ["/reports-controller"]
