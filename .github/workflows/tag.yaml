@@ -1,4 +1,4 @@
-name: Align Tag
+name: Publish Tag
 
 on:
   push:
@@ -6,24 +6,30 @@ on:
     - release-*.*
 
 jobs:
-  tag_release:
+  release:
     runs-on: ubuntu-latest
     permissions:
       contents: write
 
-    # 1. Filter: Only run if the commit came from the Renovate bot
-    if: github.event.pusher.name == 'konflux-staging[bot]'
+    # # 1. Filter: Only run if the commit came from the Renovate bot
+    # if: github.event.pusher.name == 'konflux-staging[bot]'
 
     steps:
     - uses: actions/checkout@v5
       with:
         fetch-depth: '0'
     
-    - name: tag-current-commit
+    - name: release-and-tag
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        BRANCH: ${{ github.ref_name }}
       run: |
         set -e
 
         TAG=$(./hack/kyverno_tag.sh)
-        gh release create "${TAG}" -d --generate-notes -t "Kyverno ${TAG}"
+        if gh release view "${TAG}" > /dev/null; then
+          printf "Release already exists\n%s" "$(gh release view ${TAG} --json=name,tagName,url)"
+          exit 1
+        fi
+
+        gh release create "${TAG}" --generate-notes -t "Kyverno ${TAG}" --target "${BRANCH}"
