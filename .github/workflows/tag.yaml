@@ -27,8 +27,9 @@ jobs:
         set -e
 
         TAG=$(./hack/kyverno_tag.sh)
-        if ! gh release view "${TAG}" > /dev/null; then
-          gh release create "${TAG}" --generate-notes -t "Kyverno ${TAG}" --target "${BRANCH}"
+        if gh release view "${TAG}" > /dev/null; then
+          printf "Release already exist\n%s" "$(gh release view ${TAG} --json=name,tagName,url)"
+          exit 1
         fi
 
-        printf "Release already exist\n%s" "$(gh release view ${TAG} --json=name,tagName,url)"
+        gh release create "${TAG}" --generate-notes -t "Kyverno ${TAG}" --target "${BRANCH}"
