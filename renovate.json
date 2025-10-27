@@ -1,11 +1,10 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "baseBranches": [
-      "main",
-      "release-1.15",
-      "release-*.*"
+  "baseBranchPatterns": [
+    "main",
+    "release-1.15"
   ],
-  "dockerfile":   {
+  "dockerfile": {
     "managerFilePatterns": [
       "/components/(^|/|\\.)([Dd]ocker|[Cc]ontainer)file$/",
       "/components/(^|/)([Dd]ocker|[Cc]ontainer)file[^/]*$/"
