@@ -1,4 +1,4 @@
 [submodule "kyverno"]
   path = kyverno
   url = https://github.com/kyverno/kyverno
-  branch = release-1.15 
+  branch = v1.15.0
