@@ -3,13 +3,11 @@ name: Align Tag
 on:
   push:
     branches:
-    - release-*.*
+    - release-1.15
 
 jobs:
   tag_release:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
 
     # 1. Filter: Only run if the commit came from the Renovate bot
     if: github.event.pusher.name == 'konflux-staging[bot]'
