@@ -28,7 +28,7 @@ jobs:
 
         TAG=$(./hack/kyverno_tag.sh)
         if gh release view "${TAG}" > /dev/null; then
-          printf "Release already exist\n%s" "$(gh release view ${TAG} --json=name,tagName,url)"
+          printf "Release already exists\n%s" "$(gh release view ${TAG} --json=name,tagName,url)"
           exit 1
         fi
 
