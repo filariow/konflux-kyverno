@@ -22,8 +22,9 @@ jobs:
     - name: tag-current-commit
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        BRANCH: ${{ github.ref_name }}
       run: |
         set -e
 
         TAG=$(./hack/kyverno_tag.sh)
-        gh release create "${TAG}" -d --generate-notes -t "Kyverno ${TAG}"
+        gh release create "${TAG}" -d --generate-notes -t "Kyverno ${TAG}" --target "${BRANCH}"
