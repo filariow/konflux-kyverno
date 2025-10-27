@@ -1,0 +1,29 @@
+name: Align Tag
+
+on:
+  push:
+    branches:
+    - release-*.*
+
+jobs:
+  tag_release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    # 1. Filter: Only run if the commit came from the Renovate bot
+    if: github.event.pusher.name == 'konflux-staging[bot]'
+
+    steps:
+    - uses: actions/checkout@v5
+      with:
+        fetch-depth: '0'
+    
+    - name: tag-current-commit
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        set -e
+
+        TAG=$(./hack/kyverno_tag.sh)
+        gh release create "${TAG}" -d --generate-notes -t "Kyverno ${TAG}"
