@@ -27,4 +27,4 @@ jobs:
         set -e
 
         TAG=$(./hack/kyverno_tag.sh)
-        gh release create "${TAG}" -d --generate-notes -t "Kyverno ${TAG}" --target "${BRANCH}"
+        gh release create "${TAG}" --generate-notes -t "Kyverno ${TAG}" --target "${BRANCH}"
