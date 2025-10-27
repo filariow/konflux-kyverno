@@ -1,4 +1,4 @@
-name: Align Tag
+name: Publish Tag
 
 on:
   push:
@@ -27,4 +27,8 @@ jobs:
         set -e
 
         TAG=$(./hack/kyverno_tag.sh)
-        gh release create "${TAG}" --generate-notes -t "Kyverno ${TAG}" --target "${BRANCH}"
+        if ! gh release view "${TAG}" > /dev/null; then
+          gh release create "${TAG}" --generate-notes -t "Kyverno ${TAG}" --target "${BRANCH}"
+        fi
+
+        printf "Release already exist\n%s" "$(gh release view ${TAG} --json=name,tagName,url)"
