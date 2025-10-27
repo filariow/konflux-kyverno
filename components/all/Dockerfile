@@ -17,7 +17,7 @@ RUN go mod download
 RUN make build-${TARGETCOMPONENT}
 RUN echo "/${TARGETCOMPONENT}" > /konflux-kyverno/entrypoint.sh
 
-FROM registry.access.redhat.com/ubi9/ubi-micro@sha256:f45ee3d1f8ea8cd490298769daac2ac61da902e83715186145ac2e65322ddfc8
+FROM registry.access.redhat.com/ubi9/ubi-micro@sha256:aff810919642215e15c993b9bbc110dbcc446608730ad24499dafd9df7a8f8f4
 ARG TARGETCOMPONENT
 WORKDIR /
 COPY --from=builder /konflux-kyverno/kyverno/cmd/${TARGETCOMPONENT} .
