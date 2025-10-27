@@ -3,7 +3,6 @@
   "baseBranches": [
       "main",
       "release-1.15",
-      "release-*.*"
   ],
   "dockerfile":   {
     "managerFilePatterns": [
