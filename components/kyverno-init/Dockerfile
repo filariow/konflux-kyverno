@@ -6,7 +6,7 @@ ARG TARGETARCH
 WORKDIR /kyverno
 
 # Copy the Go Modules manifests
-COPY --chown=1001:0 . .
+COPY --chown=1001:0 kyverno .
 # cache deps before building and copying source so that we don't need to re-download as much
 # and so that source changes don't invalidate our downloaded layer
 RUN go mod download
